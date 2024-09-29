@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Numerek MZSP</title>
+    <link rel="icon" type="image/x-icon" href="logo.png">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        #numerek { font-size: 2em; color: #9a02ff; margin: 20px; }
+        .error { color: red; }
+    </style>
+</head>
+<body>
+    <h1>Dane ze strony MZSP</h1>
+    <p>Aktualny numer to:</p>
+    <div class="jajko">
+        <p id="numerek">Pobieranie Numerka</p>
+    </div>
+
+    <script>
+async function fetchNumber() {
+    try {
+        const response = await fetch('https://api.allorigins.win/get?url=https://www.mzsp.pl/start.php');
+
+        if (!response.ok) {
+            throw new Error(`Błąd HTTP: ${response.status}`);
+        }
+
+        const data = await response.json();
+        console.log('Odpowiedź z serwera:', data); // Logowanie odpowiedzi
+
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(data.contents, 'text/html'); // Zmiana na data.contents
+
+        const numberElement = doc.querySelector('#numerek h4');
+
+        if (numberElement) {
+            document.getElementById('numerek').innerText = numberElement.textContent.trim();
+        } else {
+            document.getElementById('numerek').innerText = 'Nie znaleziono numeru!';
+        }
+    } catch (error) {
+        console.error('Błąd podczas pobierania danych:', error);
+        document.getElementById('numerek').innerHTML = `<span class="error">Błąd podczas pobierania danych: ${error.message}</span>`;
+    }
+}
+
+
+        // Pobierz dane przy załadowaniu strony
+        window.onload = fetchNumber;
+    </script>
+</body>
+</html>

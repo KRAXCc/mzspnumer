@@ -1,0 +1,23 @@
+/* style.css */
+body{
+    background-image: url(Tlo.png);
+    background-repeat: repeat;
+    background-position: center;
+    background-attachment: fixed;
+    background-size: 550px;
+}
+
+h1 {
+font-size: 75px;
+color: blue;
+}
+
+p {
+font-size: xxx-large;
+color:brown;
+}
+
+.jajko {
+font-size: 99px;
+text-shadow: 4px 9px 5px rgba(0, 0, 233, 1);
+}
